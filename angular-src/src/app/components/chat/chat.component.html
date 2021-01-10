@@ -1,0 +1,109 @@
+<div class="wrapper">
+  Logged in as: <b>{{thisUser.username}}</b>
+  <div class="wrapper-body">
+    <div class="container">
+        <div style="position: relative">
+          <button class="btn-success back-btn" (click)="location.back()">BACK</button>
+          <h3 class="text-center color-white">Napredno JavaScript Programiranje - Chat aplikacija</h3>
+        </div>
+        <div class="messaging">
+          <div class="inbox_msg position-relative">
+            <span class="active-chat-user" *ngIf="activeChatUser">{{activeChatUser.firstName + " " + activeChatUser.lastName}}&nbsp;</span>
+            <div class="inbox_people">
+              <div class="headind_srch">
+                <div class="recent_heading">
+                  <h4>Recent</h4>
+                </div>
+                <div class="srch_bar">
+                  <div class="stylish-input-group">
+                    <button class="btn-info new-message-btn" (click)="newMessageModal.ref = modalService.open(newMessageModal.content, {scrollable:true})">New</button>
+                    <input type="text" class="search-bar" placeholder="Search" [(ngModel)]="search">
+                    <span class="input-group-addon">
+                    <button style="cursor: default;" disabled="disabled" type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                    </span> 
+                  </div>
+                </div>
+              </div>
+                <div class="inbox_chat">
+                  <div *ngIf="chatrooms && chatrooms.length > 0">
+                    <div class="chat_list {{recent.active}}" *ngFor="let recent of chatrooms | formatRecentChats: thisUser : activeChatUser | sortingRecentChats : search; let i = index" (click)="makeActive(recent)">
+                      <div class="chat_people">
+                        <div class="chat_img"> <img src="{{recent.imageUrl}}"> </div>
+                        <div class="chat_ib">
+                          <h5>{{recent.name}} <span class="chat_date">{{recent.date}}</span></h5>
+                          <p>{{recent.senderName}}: {{ recent.messageContent.length > 35 - recent.senderName.length ? recent.messageContent.substring(0, 35 - recent.senderName.length) + "..." : recent.messageContent}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="mesgs">
+              <div class="msg_history" id="chat" #scrollMe>
+                <div class="no_chat_opened" *ngIf="!activeChatUser">
+                  Please, choose a chatroom
+                </div>
+                <div #messages class="{{activeMessage.senderClass}}" *ngFor="let activeMessage of activeMessages | formatActiveMessages: thisUser; trackBy: trackById; let i = index">
+                  <div *ngIf="activeMessage.senderClass == 'incoming_msg'" class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"></div>
+                  <div *ngIf="activeMessage.senderClass == 'incoming_msg'" class="received_msg">
+                    <div class="received_withd_msg">
+                      <p>{{activeMessage.body}}</p>
+                      <div *ngIf="activeMessage.attachments && activeMessage.attachments.length">
+                        <div *ngFor="let attachment of activeMessage.attachments; let i = index">
+                          <a [href]="attachment._id | secure | async" [download]="attachment.name" *ngIf="attachment.type == 'OTHER'" class="attachment-button"><i class="fa fa-download" style="font-size: 20px; position:relative; left: 4px; top:4px"></i> {{attachment.name}}</a>
+                          <video *ngIf="attachment.type == 'VIDEO'" [src]="attachment._id | secure | async" style="width:100%;" controls></video>
+                          <div style="position: relative">
+                            <img *ngIf="attachment.type == 'IMAGE'" (click)="openImageModal.imageBlobUrl=$event.target.attributes.src.value;openImageModal.ref = modalService.open(openImageModal.content, { centered: true })" [src]="attachment._id | secure | async" style="height: 300px; width: 100%; border-radius: 3px;" class="message-image myDIV"/>
+                            <span class="hide">Open image</span>
+                          </div>  
+                          <agm-map *ngIf="attachment.type == 'LOCATION'" [longitude]="attachment.longitude" [latitude]="attachment.latitude" style="height: 200px;" [zoom]="15">
+                            <agm-marker [latitude]="attachment.latitude" [longitude]="attachment.longitude" [iconUrl]="iconUrl"></agm-marker>
+                          </agm-map>    
+                        </div>
+                      </div>
+                      <span class="time_date">{{activeMessage.created}}</span>
+                    </div>
+                  </div>
+                  <div *ngIf="activeMessage.senderClass != 'incoming_msg'" class="sent_msg">
+                    <p>{{activeMessage.body}}</p>
+                    <div *ngIf="activeMessage.attachments && activeMessage.attachments.length">
+                      <div *ngFor="let attachment of activeMessage.attachments; let i = index">
+                        <a [href]="attachment._id | secure | async" [download]="attachment.name" *ngIf="attachment.type == 'OTHER'" class="attachment-button"><i class="fa fa-download" style="font-size: 20px; position:relative; left: 4px; top:4px"></i> {{attachment.name}}</a>
+                        <video *ngIf="attachment.type == 'VIDEO'" [src]="attachment._id | secure | async" style="width:100%;" controls></video>
+                        <div style="position: relative">
+                          <img *ngIf="attachment.type == 'IMAGE'" (click)="openImageModal.imageBlobUrl=$event.target.attributes.src.value;openImageModal.ref = modalService.open(openImageModal.content, { centered: true })" [src]="attachment._id | secure | async" style="height: 300px; width: 100%; border-radius: 3px;" class="message-image myDIV"/>
+                          <span class="hide" style="position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); pointer-events: none;">Open image</span>
+                        </div>  
+                        <agm-map *ngIf="attachment.type == 'LOCATION'" [longitude]="attachment.longitude" [latitude]="attachment.latitude" style="height: 200px;" [zoom]="15">
+                          <agm-marker [latitude]="attachment.latitude" [longitude]="attachment.longitude" [iconUrl]="iconUrl"></agm-marker>
+                        </agm-map>    
+                      </div>
+                    </div>
+                    <span class="time_date">{{activeMessage.created}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-group dropup menu" *ngIf="activeChatUser" mdbDropdown>
+                <button color="primary" mdbDropdownToggle type="button" [disabled]="activeChatUser == null ? true : null" class="waves-light menu-button" mdbWavesEffect><i class="fa fa-bars"></i></button>
+                <form>
+                  <div class="dropdown-menu positioning">
+                    <a class="dropdown-item" href="javascript:void(0)" (click)="shareCurrentLocation()">Share current location</a>
+                    <input type='file' #file (change)="filesAdded($event)" multiple> <span id='val'>{{selectedFiles.length ? selectedFiles.length + ' files attached' : 'No files attached'}}</span> <span (click)="file.click()" id='button'>Attach files</span>
+                  </div>
+                </form>
+              </div>
+              <div class="type_msg">
+                <div class="input_msg_write">
+                  <input [(ngModel)]="messageBody" (keydown.enter)="sendMessage()" type="text" class="write_msg" placeholder="Type a message" [disabled]="activeChatUser == null ? true : null"/>
+                  <button (click)="sendMessage()" class="msg_send_btn" type="button" [disabled]="activeChatUser == null ? true : null"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<app-new-message-modal (open)="openChat($event)" #newMessageModal></app-new-message-modal>
+<app-open-image-modal #openImageModal></app-open-image-modal>

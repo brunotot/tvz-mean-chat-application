@@ -1,0 +1,58 @@
+<div class="wrapper">
+    Logged in as: <b>{{thisUser.username}}</b>
+    <div class="wrapper-body">
+        <div>
+            <button class="btn-success back-btn" (click)="location.back()">BACK</button>
+            <div *ngIf="user">
+                <table class="table-style">
+                    <tr>
+                        <th>ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th *ngIf="user._id == thisUser._id">Actions</th>
+                    </tr>
+                    <tr>
+                        <td>{{user._id}}</td>
+                        <td *ngIf="!isUpdating" class="width-p10">{{user.firstName}}</td>
+                        <td *ngIf="isUpdating" class="width-p10"><input type="text" [(ngModel)]="firstName"/></td>
+
+                        <td *ngIf="!isUpdating" class="width-p10">{{user.lastName}}</td>
+                        <td *ngIf="isUpdating" class="width-p10"><input type="text" [(ngModel)]="lastName"/></td>
+
+                        <td *ngIf="!isUpdating" class="width-p10">{{user.username}}</td>
+                        <td *ngIf="isUpdating" class="width-p10"><input type="text" [(ngModel)]="username"/></td>
+
+                        <td *ngIf="!isUpdating" class="width-p10">{{user.role}}</td>
+                        <td *ngIf="isUpdating" class="width-p10">
+                            <select type="text" [(ngModel)]="role">
+                                <option *ngIf="thisUser.role == 'ADMIN'" value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>
+                        </td>
+                        <td *ngIf="user._id == thisUser._id">
+                            <div *ngIf="isUpdating">
+                                <button type="button" class="btn-success" (click)="applyUser()">Apply</button>&nbsp;
+                                <button type="button" class="btn-danger" (click)="updateOrCancel(user)">Cancel</button>&nbsp;
+                            </div>
+                            <div *ngIf="!isUpdating">
+                                <button (click)="updateOrCancel(user)" class="btn-info">Update</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="!user && errorMessage && errorMessage.length">
+                <table class="table-style-error">
+                    <tr>
+                        <th>Error message</th>
+                    </tr>
+                    <tr>
+                        <td>{{errorMessage}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

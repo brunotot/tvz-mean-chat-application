@@ -1,0 +1,9 @@
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <img *ngIf="imageBlobUrl" [src]="domSanitizer.bypassSecurityTrustUrl(imageBlobUrl)" style="max-height: 80vh; max-width: 100%;"/>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>
+  </div>
+  </ng-template>
+  

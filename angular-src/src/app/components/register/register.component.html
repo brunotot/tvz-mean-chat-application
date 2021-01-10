@@ -1,0 +1,32 @@
+<div class="wrapper">
+    <div class="wrapper-body">
+        <div class="login">            
+            <h2 class="text-center">REGISTER</h2>
+            <form class="signup-form" fxLayout="column" fxLayoutAlign="center center" (submit)="onRegister()" [formGroup]="signupForm">
+                <fieldset class="form-group">
+                    <label><b>Username</b></label><br>
+                    <input type="text" formControlName="username" placeholder="Username" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <label><b>Password</b></label><br>
+                    <input type="password" formControlName="password" placeholder="Password" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <label><b>Confirm password</b></label><br>
+                    <input type="password" formControlName="confirmPassword" placeholder="Confirm password" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <label><b>First name</b></label><br>
+                    <input type="text" formControlName="firstName" placeholder="First name" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <label><b>Last name</b></label><br>
+                    <input type="text" formControlName="lastName" placeholder="Last name" />
+                </fieldset>
+                <button class="btn-success" type="submit" [disabled]="signupForm.invalid">REGISTER</button>
+                <button class="btn-info back-btn" [routerLink]="['/']">BACK</button><br style="clear: both"/>
+                <div *ngIf="errorMessage" class="error-message">{{errorMessage}}</div>
+            </form><br>
+        </div>
+    </div>
+</div>

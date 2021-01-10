@@ -1,0 +1,25 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Send message to user</h4>&nbsp;&nbsp;
+      <input type="text" placeholder="Search" [(ngModel)]="search"/>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="inbox_chat">
+            <div class="chat_list" *ngFor="let user of users | sortingUsers: search; let i = index" (click)="openUserChat(user)">
+                <div class="chat_people">
+                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div>
+                <div class="chat_ib">
+                    <h5>{{user.firstName}} {{user.lastName}}</h5>
+                </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close()">Close</button>
+    </div>
+  </ng-template>
+  

@@ -1,0 +1,9 @@
+<div class="wrapper">
+    Logged in as: <b>{{user.username}}</b>
+    <div class="wrapper-body">
+        <button class="button blue" [routerLink]="['/chat']">Chat</button>
+        <button [routerLink]="['/profile', user._id]" class="button blue">Profile</button>
+        <button *ngIf="user.role == 'ADMIN'" [routerLink]="['/administration']" class="button blue">Administration</button>
+        <button class="button crimson" (click)="logout()">Log out</button>
+    </div>
+</div>

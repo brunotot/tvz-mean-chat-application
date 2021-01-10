@@ -1,0 +1,13 @@
+.back-btn {
+    border-radius: 10%; 
+    float: right;
+}
+
+.error-message {
+    color: red; 
+    width: 100%; 
+    word-break: break-word; 
+    max-width: 197px; 
+    display: inline-block; 
+    padding-top: 10px;
+}

@@ -1,0 +1,79 @@
+<div class="wrapper">
+    Logged in as: <b>{{thisUser.username}}</b>
+    <div class="wrapper-body">
+        <div>
+            <button class="btn-success border-radius-10" style="margin-bottom: 20px" (click)="location.back()">BACK</button>
+            <div *ngIf="users && users.length > 0">
+                <table class="table-style">
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr *ngFor="let user of users | formatUsersWithoutAdmin: thisUser; let i = index;">
+
+                        <td *ngIf="!user.isUpdating" style="width: 10%">{{user.firstName}}</td>
+                        <td *ngIf="user.isUpdating" style="width: 10%"><input type="text" [(ngModel)]="user.updatedUser.firstName"/></td>
+
+                        <td *ngIf="!user.isUpdating" style="width: 10%">{{user.lastName}}</td>
+                        <td *ngIf="user.isUpdating" style="width: 10%"><input type="text" [(ngModel)]="user.updatedUser.lastName"/></td>
+
+                        <td *ngIf="!user.isUpdating" style="width: 10%">{{user.username}}</td>
+                        <td *ngIf="user.isUpdating" style="width: 10%"><input type="text" [(ngModel)]="user.updatedUser.username"/></td>
+
+                        <td *ngIf="!user.isUpdating" style="width: 10%">{{user.role}}</td>
+                        <td *ngIf="user.isUpdating" style="width: 10%">
+                            <select type="text" [(ngModel)]="user.updatedUser.role">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>
+                        </td>
+
+                        <td style="width: 60%">
+                            <div *ngIf="user.role != 'ADMIN'">
+                                <div *ngIf="user.isUpdating">
+                                    <button type="button" class="btn-success border-radius-10" (click)="applyUser(user.updatedUser)">Apply</button>&nbsp;
+                                    <button type="button" class="btn-danger border-radius-10" (click)="user.updatedUser.firstName=user.firstName;user.updatedUser.lastName=user.lastName;user.updatedUser.username=user.username;user.updatedUser.role=user.role;user.isUpdating = !user.isUpdating">Cancel</button>&nbsp;
+                                </div>
+                                <div *ngIf="!user.isUpdating">
+                                    <button type="button" class="btn-primary border-radius-10" [routerLink]="['/profile', user._id]">Read</button>&nbsp;
+                                    <button type="button" class="btn-info border-radius-10" (click)="user.isUpdating = !user.isUpdating">Update</button>&nbsp;
+                                    <button class="btn-danger border-radius-10" type="button" (click)="delete(user._id)">Delete</button>
+                                </div>
+                            </div>
+                            <div style="text-align: left" *ngIf="user.role == 'ADMIN'">
+                                <button type="button" class="btn-primary border-radius-10" [routerLink]="['/profile', user._id]">Read</button>&nbsp;
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="new-user" *ngIf="creatingNew">
+                        <td><input type="text" placeholder="First name" [(ngModel)]="firstName"></td>
+                        <td><input type="text" placeholder="Last name" [(ngModel)]="lastName"></td>
+                        <td><input type="text" placeholder="Username" [(ngModel)]="username"></td>
+                        <td>
+                            <select type="text" [(ngModel)]="role">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
+                            </select>
+                        </td>
+                        <td><button style="height:26px" class="btn-success" (click)="applyNewUser()">Apply</button></td>
+                    </tr>
+                </table><br>
+                <button class="border-radius-10" (click)="dropDatabase()">Drop msg/chatroom/attachments database tables</button>
+                <button class="border-radius-10  {{creatingNew ? 'btn-danger' : 'btn-warning'}}" (click)="username='';firstName='';lastName='';role='ADMIN';creatingNew = !creatingNew;" style="float: right">{{creatingNew ? 'Cancel' : 'Create'}}</button><br style="clear: both">
+            </div>
+            <div *ngIf="!users && errorMessage && errorMessage.length">
+                <table class="table-style-error">
+                    <tr>
+                        <th>Error message</th>
+                    </tr>
+                    <tr>
+                        <td>{{errorMessage}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
