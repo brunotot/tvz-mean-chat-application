@@ -23,3 +23,10 @@
     # navigate to frontend source folder (tvz-mean-chat-application/angular-src)
     npm start
     ```
+    
+## Screenshots
+- Sharing text and picture messages
+![alt text](https://i.ibb.co/Gp0XtY7/1.png)
+- Sharing location and video messages
+![alt text](https://i.ibb.co/tqPtFLM/2.png)
+
