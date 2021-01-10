@@ -1,3 +1,21 @@
+## Features
+- custom chat design (used and adjusted from https://bootsnipp.com/snippets/1ea0N Copyright@sunil8107)
+- sending text messages
+- sending videos, pictures, locations and other files as attachments
+- downloading attachment files with one click
+- real-time messaging (sockets)
+- authentication and authorization
+- routing and pipes
+- CRUD operations
+- fully functional REST API with global exception handler
+
+## Technologies
+- MongoDB
+- Express
+- Node.js
+- Angular
+- Web sockets (socket.io, socket.io-client)
+
 ## Quick startups (2 ways)
 - Run with **start.bat**
   - this process will install all necessary packages for backend and frontend services
