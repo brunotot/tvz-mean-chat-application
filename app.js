@@ -13,6 +13,13 @@ const { messagesRoute } = require('./routes/messages');
 const { chatroomsRoute } = require('./routes/chatrooms');
 const { attachmentsRoute } = require('./routes/attachments');
 const io = require('socket.io')(http, {cors: { origin: "http://localhost:4200", methods: ["*"], allowedHeaders: ["*"] }});
+const fs = require('fs');
+const path = require('path');
+
+let directory = path.resolve(__dirname,  `storage/attachments`);
+if (!fs.existsSync(directory)){
+    fs.mkdirSync(directory);
+}
 
 // Middlewares
 app.use(express.static('public'))
