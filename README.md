@@ -14,10 +14,12 @@
   - open terminal for backend and start service
     ```
     start cmd
+    # navigate to backend source folder (tvz-mean-chat-application)
     npm start
     ```
   - open terminal for frontend and start service
     ```
     start cmd
+    # navigate to frontend source folder (tvz-mean-chat-application/angular-src)
     npm start
     ```
