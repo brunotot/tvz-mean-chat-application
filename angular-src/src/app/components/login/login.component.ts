@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
       'password': new FormControl(null, [Validators.required])
     });
     this.auth.errorEmitter
-      .subscribe((error: string) => {
-        this.errorMessage = error;
+      .subscribe((error: any) => {
+        this.errorMessage = error.error.message;
       });
   }
 
