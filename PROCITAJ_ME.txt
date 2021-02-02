@@ -1,0 +1,23 @@
+Struktura:
+- ./tvz-mean-chat-application
+	- nodejs backend server root folder
+- ./tvz-mean-chat-application/angular-src
+	- angular frontend root folder
+
+Pokretanje:
+- pokrenuti server.bat
+	ILI
+- ručno instalirati pakete za frontend i backend (npm install) i oba pokrenuti ručno sa npm start
+
+Role:
+- ADMIN
+	- user: admin
+	- pass: admin
+- USER
+	- user: brunotot
+	- pass: brunotot
+(Sa adminom možete pregledavati administrativni dio)
+
+Prije testiranja aplikacije ulogirajte se kao ADMIN pa navigirajte na Administration
+i stisnite Drop msgs/chatrooms/attachments tables kako ne bi bilo ispisivanja attachment
+datoteka koje vi nemate lokalno.
